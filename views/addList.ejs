@@ -1,0 +1,53 @@
+<%- include('header.ejs') %>
+<div class="container-fluid py-lg-0 py-5 m-lg-0 mb-5"
+  style="width: 100% !important ; min-height:100vh; 
+ background-image: linear-gradient(to bottom right, #EE4E34 50%, #FCEDDA 50.2%);
+ background-size: cover; 
+ ">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div
+      class="col-lg-6   mx-auto mb-lg-0">
+      <div class=" mb-5 mb-lg-0">
+
+        <div  class=" myform mx-auto px-4 py-1 py-md-2 px-md-5 mb-5 mb-lg-0">
+            <form method="post" action="/list" class=" p-4">
+    
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <!-- Email input -->
+                <div class="form-outline mb-1 text-center">
+                    <label class="form-label h3 my-1 text-center   fw-bold" for="form3Example3">List Title</label>
+                    <input type="text" name="title" id="form3Example3" class="form-control" />
+                </div>
+    
+                <!-- Date input -->
+                <div class="form-outline mb-1 my-4">
+                    <label class="form-label fs-4" for="date">Date :</label>
+                    <input id="datePicker" class="border border-1  rounded col-lg-6 p-1"
+                     placeholder="set You List Starting Date "  name="date" data-date-format="mm/dd/yyyy">
+                </div>
+    
+                <!-- Checkbox -->
+                <!-- <div class="form-check d-flex justify-content-center mb-1">
+              <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+              <label class="form-check-label" for="form2Example33">
+                Subscribe to our newsletter
+              </label>
+            </div> -->
+                <div class="text-center">
+    
+                    <!-- Submit button -->
+                    <button type="submit" class=" btn btn-primary btn-block mb-1">
+                        Create
+                    </button>
+                </div>
+            <!-- <p class="alert-danger"> </p> -->
+        </form>
+    
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script> flatpickr("#datePicker", {minDate: "today", dateFormat: "d-m-Y"});</script>
+<%- include('footer.ejs') %>

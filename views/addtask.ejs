@@ -1,0 +1,26 @@
+<%- include('header.ejs') %>
+<div style="position: fixed; top: 0;  bottom: 0; left: 0;right: 0; background-color: rgba(0,0,0,0.2); " 
+class="d-flex justify-content-center align-items-center ">
+<div  class=" myform mx-auto px-4 py-1 py-md-2 px-md-5 mb-5 mb-lg-0">
+    <form method="post" action="/addtask" class=" p-4">
+
+        
+        <div class="form-outline mb-1 text-center">
+            <label class="form-label h3 my-1 text-center my-1  fw-bold" for="form3Example3">What to do ?</label>
+            <input type="text" name="task" id="form3Example3" class="form-control my-2" />
+        </div>
+        <input type="hidden" name="title" value="<%= title %>">
+        
+        
+        <div class="text-center">
+
+            <!-- Submit button -->
+            <button type="submit" class=" btn btn-primary btn-block mb-1">
+                Create
+            </button>
+        </div>
+    <!-- <p class="alert-danger"> </p> -->
+</form>
+
+</div>
+</div>

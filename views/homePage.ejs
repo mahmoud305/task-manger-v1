@@ -1,0 +1,17 @@
+<%- include('header.ejs') %>
+<div class=" py-5 m-lg-0 mb-5 container-fluid    mb-5 d-flex justify-content-center align-items-center "
+    style="width: 100% !important ; min-height:100vh; 
+ background-image: linear-gradient(to right, #EE4E34 50%, #FCEDDA );
+ background-size: cover; 
+ ">
+<!-- // listcard implementation -->
+    <div style class="  container py-3   h-100 ">
+        <div class="row my-3 py-5">
+            <%- include("listcard.ejs" , {lists}) %>
+        </div>
+    </div>
+
+    <form action="/signout" method="post">
+        <button style="position: fixed; bottom: 0; right: 0; margin-bottom: 1.3rem; margin-right: 1.3rem;" class="btn btn-warning" type="submit">SignOut </button>
+    </form>
+</div>

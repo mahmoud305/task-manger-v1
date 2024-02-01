@@ -1,0 +1,49 @@
+<% lists.forEach(list => { %>
+<div class="col-xl-4 col-md-6 my-2 ">
+
+    <div class="card orangeBorder" style="min-width: 20rem;">
+        <div class="card-header orangeBorder text-center position-relative">
+            <h4> <%= list.title %> </h4>
+           <!-- <form action="/deleteList/<%#=list._id%>" method="post">
+            <button type="submit" style="top: 40%; right: 0; margin-right: 1.5rem;" class="position-absolute border-0 bg-transparent">
+                <i  class="fa-solid fa-trash  "></i>
+             </button> 
+        </form> -->
+            <!-- <small class="text-muted">23-1-2023</small> -->
+        </div>
+        <ul class="list-group orangeBorder list-group-flush fs-4">
+            <% list.items.forEach(task => { %>
+
+            <li
+                class="list-group-item orangeBorder  <%= task.checked? "checked":"" %> ">
+                <form action="/toggleCheck/<%= list._id %>" method="post">
+                    <input name="checkedValue" value="<%=task.checked%>"
+                        type="hidden">
+                    <input class="me-2 <%= task.checked? "checked":"" %> "type="checkbox"
+                    name="taskId"  value="<%=task._id %>"  <%= task.checked? "checked":"" %>  
+                    onchange="this.form.submit()" >
+                    <% if (task.checked) { %>
+                        <input name="taskId" value="<%=task._id%>"
+                        type="hidden">
+                    <% } %>
+                 
+                    <%=task.name %>
+                </form>
+            </li>
+            <% });%>
+
+            <!-- <li class="list-group-item"> <input type="checkbox" name="" id=""> A second item</li>
+                <li class="list-group-item"><input type="checkbox" name="" id=""> A third item</li> -->
+        </ul>
+        <form action="/addTask/<%= list.title %>" method="get"
+            class="p-0 m-0 border-0">
+            <button type="submit"
+                class="card-footer border-0 text-muted d-flex justify-content-between align-items-center w-100 h-100">
+                <h5> Add Task </h5>
+                <input type="hidden" name="<%= list.title %>">
+                <i style="font-size: x-large; font-weight: bold;"> +</i>
+            </button>
+        </form>
+    </div>
+</div>
+<% });%>

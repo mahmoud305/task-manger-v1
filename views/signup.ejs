@@ -1,0 +1,81 @@
+<div class="row mb-5 mb-lg-0">
+
+    <div class="  mx-auto px-4 py-1 py-md-2 px-md-5 mb-5 mb-lg-0">
+        <form method="post" action="/signup" class="myform p-4">
+  
+        <!-- 2 column grid layout with text inputs for the first and last names -->
+        <div class="row">
+          <div class="col-md-6 mb-1">
+            <div class="form-outline">
+              <input type="text" id="form3Example1" name="fname" class="form-control" />
+              <label class="form-label" for="form3Example1">First name</label>
+            </div>
+          </div>
+          <div class="col-md-6 mb-1">
+            <div class="form-outline">
+              <input type="text" id="form3Example2" name="lname" class="form-control" />
+              <label class="form-label"  for="form3Example2">Last name</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-1">
+          <input type="email" name="email" id="form3Example3" class="form-control" />
+          <label class="form-label" for="form3Example3">Email address</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-1">
+          <input type="password" name="password" id="form3Example4" class="form-control" />
+          <label class="form-label" for="form3Example4">Password</label>
+        </div>
+
+        <!-- Checkbox -->
+        <!-- <div class="form-check d-flex justify-content-center mb-1">
+          <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+          <label class="form-check-label" for="form2Example33">
+            Subscribe to our newsletter
+          </label>
+        </div> -->
+<div class="text-center">
+
+    <!-- Submit button -->
+    <button type="submit" class=" btn btn-primary btn-block mb-1">
+        Sign up
+    </button>
+</div>
+
+        <!-- Register buttons -->
+        <div class="text-center">
+          <p>or sign up with:</p>
+          <button type="button" class="btn btn-link btn-floating mx-1">
+            <i class="fab fa-facebook-f"></i>
+          </button>
+
+          <button type="button" class="btn btn-link btn-floating mx-1">
+            <i class="fab fa-google"></i>
+          </button>
+
+          <button type="button" class="btn btn-link btn-floating mx-1">
+            <i class="fab fa-twitter"></i>
+          </button>
+
+          <button type="button" class="btn btn-link btn-floating mx-1">
+            <i class="fab fa-github"></i>
+          </button>
+          <% errors.forEach(error => { %>
+            <p class="alert alert-danger mx-1 my-2">   <%= error %> </p>
+           <% }) %>
+        </div>
+      </form>
+      <form action="/toggleSign" method="post">
+        <input type="hidden" name="flag" value="signin">        
+       a member ?
+           <button class="btn m-0 p-0 border-0 Orange under-line text-decoration-underline" type="submit">
+                login now 
+            </button>
+        
+    </form>
+</div>
+</div>

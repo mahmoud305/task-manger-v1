@@ -1,0 +1,64 @@
+.Peach{
+    color:#FCEDDA ;
+} 
+.bg-Peach{
+    background-color:#FCEDDA ;
+} 
+.Orange{
+    color:  #EE4E34;
+}
+.bg-Orange{
+    background-color:  #EE4E34;
+}
+.bg-blue{
+
+    /* background-color: #ffe8e2;/**162b29**/
+    /* background-color: #f8bd9e; */
+    background-color: #216a61;
+}
+.myform {
+    background-color: rgba(255,255,255,0.13);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+}
+
+.semiTrans{
+    background-color: rgba(255,255,255,0.13);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+}
+.customGrid{
+    background-image: linear-gradient(180deg, #EE4E34 , #FCEDDA );
+    background-size: cover;
+    transition: 0.3s ease-in;
+    -webkit-transition: 0.3s ease-in;
+    -moz-transition: 0.3s ease-in;
+    -ms-transition: 0.3s ease-in;
+    -o-transition: 0.3s ease-in;
+    border: solid #FCEDDA 2px;
+}
+.addBtn:hover{
+    background-image: linear-gradient(90deg, #EE4E34 , #FCEDDA );
+    background-size: cover;
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    border: solid #FCEDDA 2px;   
+    font-weight: bold;
+}
+
+.checked{
+    text-decoration: line-through;
+    text-decoration-color:#EE4E34 ;
+    -moz-text-decoration-color:#EE4E34 ;
+}
+
+.orangeBorder{
+    border-color: #EE4E34 !important;
+}
