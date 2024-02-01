@@ -5,7 +5,13 @@
  background-size: cover; 
  ">
 <!-- // listcard implementation -->
-    <div style class="  container py-3   h-100 ">
+    <div style class="  container-lg container-fluid py-3   h-100 ">
+         <section  class="  d-flex justify-content-end mt-lg-0 mt-5 ">
+          <form action="/addList" method="get">
+            <button class="btn customGrid addBtn fs-5" type="submit"> Add
+              List</button>
+          </form>
+        </section>
         <div class="row my-3 py-5">
             <%- include("listcard.ejs" , {lists}) %>
         </div>

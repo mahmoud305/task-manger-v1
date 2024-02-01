@@ -107,7 +107,7 @@ const toggleSign = (req, res) => {
 
 const getHome = (req, res) => {
     
-        res.render("homePage.ejs");
+        res.redirect("/home");
    
 
 }
