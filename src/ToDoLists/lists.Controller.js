@@ -18,9 +18,7 @@ const addList = async (req, res) => {
     try {
         const list = { title: req.body.title };// CHECK CASTING THE DATE PROBLEM
         // const list= {title:req.body.title,date:req.body.date};
-        console.log(list);
         const x = await userModel.updateOne({ email: req.user.email }, { $push: { "lists": list } })
-        console.log(x);
         res.redirect("/home");
     } catch (error) {
         console.log("error in adding List");
@@ -34,7 +32,6 @@ const addList = async (req, res) => {
 }
 async function addTask(req, res) {
     const { task, title } = req.body;
-    console.log(req.user.email);
     try {
         const x = await userModel.updateOne({ email: req.user.email }, { $push: { "lists.$[e1].items": { "name": task } } },
             { arrayFilters: [{ "e1.title": title }] });
@@ -49,19 +46,14 @@ async function addTask(req, res) {
 
 
 async function toggleCheck(req, res) {
-    const { taskId ,checkedValue} = req.body;
-    const {listId}= req.params;
-    console.log("reqbody");
-    console.log(req.body);
-    console.log(req.params);
-    var newCheckedValue= checkedValue=="true" ? false :true ;
-    console.log(checkedValue);
-    console.log(newCheckedValue);
-    req.body={};
+    const { taskId, checkedValue } = req.body;
+    const { listId } = req.params;
+    var newCheckedValue = checkedValue == "true" ? false : true;
+    req.body = {};
     try {
-         const x= await userModel.updateOne({email:req.user.email},  { $set: { "lists.$[e1].items.$[e2].checked": newCheckedValue } },
-        {arrayFilters:[{"e1._id":listId},{"e2._id":taskId}]});
-        console.log(x);
+        const x = await userModel.updateOne({ email: req.user.email }, { $set: { "lists.$[e1].items.$[e2].checked": newCheckedValue } },
+            { arrayFilters: [{ "e1._id": listId }, { "e2._id": taskId }] });
+        // console.log(x);
         res.redirect("/home");
     } catch (error) {
         console.log("error in toggling Check");
@@ -91,20 +83,42 @@ const getAllUserLists = async (req, res) => {
     }
 }
 
-const deleteList =async (req,res)=>{
-    const {listId} = req.params;
+const deleteList = async (req, res) => {
+    const { listId } = req.params;
     console.log(listId);
     console.log(req.user.email);
     console.log("whatttttt");
     try {
-        const x= await userModel.updateOne({email:req.user.email},  { $pull: { "lists._id":listId } });
+        const x = await userModel.updateOne({ email: req.user.email }, { $pull: { "lists": { _id: listId } } });
         // {arrayFilters:[{"e1._id":listId}]});
         console.log(x);
-        res.status(StatusCodes.OK).redirect("home");
+        res.status(StatusCodes.OK).redirect("/home");
     } catch (error) {
-        console.log("error in deleting user List :"+listId);
+        console.log("error in deleting user List :" + listId);
         console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).redirect("/home");
     }
 }
-module.exports = { getAddPage, addList, addTask, getAddTaskPage, getAllUserLists ,toggleCheck ,deleteList}
+const deleteTask = async (req, res) => {
+    const { taskId } = req.params;
+    const { listId } = req.body;
+    console.log(listId);
+    console.log(taskId);
+    console.log(req.user.email);
+    try {
+        const result = await userModel.updateOne({ email: req.user.email },
+             { $pull: { "lists.$[e1].items":{_id:taskId}  } },
+        { arrayFilters: [{ "e1._id": listId }] });
+
+        // const result = await userModel.updateOne({ email: req.user.email }, 
+        //     { $pull: { "lists.$[e1].tasks": { _id: taskId } } },
+        //     { arrayFilters: [{ "e1._id": listId }] });
+            console.log(result);
+            res.status(StatusCodes.OK).redirect("/home");
+    } catch (error) {
+        console.log("error in deleting user List: " + listId + " Task: " + taskId);
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).redirect("/home");
+    }
+}
+module.exports = { getAddPage, addList, addTask, getAddTaskPage, getAllUserLists, toggleCheck, deleteList,deleteTask }
