@@ -67,6 +67,7 @@ const getAddTaskPage = (req, res) => {
 }
 
 const getAllUserLists = async (req, res) => {
+ 
     try {
         const email = req.user.email;
         console.log(email);

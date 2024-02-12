@@ -5,6 +5,8 @@ const localStorage = require("../../common/localStorage");
 const passport = require("passport");
 const e = require("express");
 const bcrypt = require('bcrypt');
+const sendEmail = require("../../common/SendEmail");
+const { log } = require("console");
 var errors = [];
 var signinPageFlag = true;
 var user = null;
@@ -12,22 +14,30 @@ const setErrors = function (newErrors) { errors = newErrors };
 
 
 
-const signUp = async(req, res) => {
+const signUp = async (req, res) => {
     // console.log(req.body);
     const { fname, lname, email, password } = req.body;
     const fullName = fname + " " + lname;
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    console.log(req.protocol+"://"+req.get('host'));
     try {
         const user = await userModel.findOne({ email });
-        
+
         if (user) {
             return res.status(StatusCodes.BAD_REQUEST).send('Email Already Exists');
         }
         const hash = bcrypt.hashSync(password, 7);
-        const newUser = new userModel({ name: fullName, email, password:hash });
+        const newUser = new userModel({ name: fullName, email, password: hash });
         newUser.save();
         console.log("user added successfully");
-        signinPageFlag=true;
-        res.status(StatusCodes.CREATED).redirect("/");
+        signinPageFlag = true;
+        // sending verification Here
+         sendEmail([email],{fullUrl,email});
+        const filePat= __dirname + "../../public/verfyEmail.html";
+        console.log(fullUrl);
+        // res.sendFile(__dirname + "../../public/verfyEmail.html");
+        res.render("verfyEmail.ejs");
+        // res.status(StatusCodes.CREATED).redirect("/");
     } catch (error) {
         errors.length = 0;
         errors.push(error);
@@ -35,13 +45,28 @@ const signUp = async(req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).redirect("/");
     }
 }
-
+const verifyEmail = async(req,res)=>{
+    const { userEmail }= req.params;
+    console.log(req.params);
+    console.log(userEmail);
+    try {
+        const result = await userModel.findOneAndUpdate({email:userEmail}, {$set :{verified:true} });
+        console.log(result);
+        console.log("verified successfully");
+        res.status(StatusCodes.OK).redirect("/");
+    } catch (error) {
+        errors.length = 0;
+        errors.push(error);
+        console.log("error in verifing new user with email:"+email+"\n" + error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).redirect("/");
+    }
+}
 const signInFail = (req, res) => {
     errors.length = 0;
     errors.push("email or password is incorrect");
-    return res.status(StatusCodes.BAD_REQUEST).redirect("/");
+    res.status(StatusCodes.BAD_REQUEST).redirect("/");
 }
- 
+
 
 
 const signOut = (req, res) => {
@@ -70,22 +95,29 @@ const getInitialPage = async (req, res) => {
         https.get("https://type.fit/api/quotes", (response) => {
             response.on('data', (d) => {
                 data = data + d;
-                
+
             });
             response.on('end', () => {
                 data = JSON.parse(data);
                 let index = Math.floor(Math.random() * data.length);
                 console.log(errors);
-                if (errors.length)
-                    res.status(StatusCodes.BAD_REQUEST).render("home.ejs", { quote: "qoutes not alawys available ", isSignIn: signinPageFlag, errors: errors });
-                else
+                if (errors.length){
+                     
+                    res.status(StatusCodes.BAD_REQUEST).render("home.ejs", { quote: data[index], isSignIn: signinPageFlag, errors: errors });
+                    
+                }
+                else {
+                    console.log(req.params);
+                    if (req.params.error){
+                       errors.push("Verify your email to start handling your tasks 🛡️.");
+                    }
                     res.status(StatusCodes.OK).render("home.ejs", { quote: data[index], isSignIn: signinPageFlag, errors: errors });
+                }
+                errors.length=0;
             })
-            response.on("error",(er)=>{
-                console.log("error in quotes rendering\n"+er);
+            response.on("error", (er) => {
+                console.log("error in quotes rendering\n" + er);
                 res.status(StatusCodes.BAD_REQUEST).render("home.ejs", { quote: "qoutes not alawys available ", isSignIn: signinPageFlag, errors: er });
-
-
             })
 
         });
@@ -106,12 +138,12 @@ const toggleSign = (req, res) => {
 }
 
 const getHome = (req, res) => {
-    
-        res.redirect("/home");
-   
+
+    res.redirect("/home");
+
 
 }
-module.exports = { signInFail, signOut, signUp, toggleSign, getInitialPage, setErrors, getHome }
+module.exports = { signInFail, signOut, signUp, toggleSign, getInitialPage, setErrors, getHome,verifyEmail }
 
 // const signIn = (req, res) => {
 //     console.log(req.body);

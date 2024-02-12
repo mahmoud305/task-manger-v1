@@ -26,7 +26,8 @@ const userSchema = new mongoose.Schema(
                 name: String,
                 checked: { type: Boolean, default: false }
             }]
-        }]
+        }],
+        verified:{type:Boolean,default:"false"}
 
     }
     ,
@@ -57,7 +58,7 @@ passport.use(new LocalStrategy({ usernameField: "email" }, async function (email
 
 passport.serializeUser((user, done) => {// called after sign in and before the cooki is created
     // console.log(user);
-    return done(null, {id:user.id,email:user.email})
+    return done(null, {id:user.id,email:user.email,verified:user.verified})
 });
 passport.deserializeUser((user, done) => {// called with every request that has a cooki 
     // console.log(user);
